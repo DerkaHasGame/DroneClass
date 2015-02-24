@@ -5,57 +5,36 @@ public class identityTracker : MonoBehaviour {
 	
 	public GameObject toolTip;
 
+	public GameObject hoveredObject;
+	public GameObject[] objects;
+
 	private bool canClick;
 	private bool clicked;
 
 	// Use this for initialization
 	void Start ()
 	{
-		if (this.gameObject.name == "PC")
-		{
-			toolTip.SetActive(false);
-		}
+		toolTip.SetActive(false);
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-		if (Input.GetButtonDown("Fire1"))
+		if (Input.GetButtonDown("Fire1") && canClick)
 		{
-			clicked = true;
-
-			if (canClick)
-			{
-				Debug.Log("Clicked Tree #1");
-			}
+			toolTip.SetActive(true);
 		}
 
-		if (!canClick && Input.GetButtonDown("Fire1") && this.gameObject.name == "PC")
+		if (Input.GetButtonDown("Fire1") && !canClick)
 		{
-			clicked = false;
-
-			Debug.Log("Clicked Nothing");
-		}
-
-		if (clicked)
-		{
-			if (this.gameObject.name == "PC")
-			{
-				toolTip.SetActive(true);
-			}
-		}
-
-		else if (!clicked)
-		{
-			if (this.gameObject.name == "PC")
-			{
-				toolTip.SetActive(false);
-			}
+			toolTip.SetActive(false);
 		}
 	}
 
-	void OnMouseEnter ()
+	void OnMouseEnter (Collider other)
 	{
+		hoveredObject = other.gameObject;
+
 		canClick = true;
 
 		Debug.Log("Tree #1");
